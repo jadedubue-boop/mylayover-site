@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MyLayover – Turn Your Layover Into An Adventure</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Basic styling -->
+  <style>
+    :root {
+      /* 🌈 Approximation of the palette from your logo – tweak as needed */
+      --color-bg: #0b1220;       /* deep navy */
+      --color-primary: #ff8a5c;  /* warm coral */
+      --color-secondary: #4cc9f0;/* bright sky blue */
+      --color-accent: #ffeecf;   /* soft warm cream */
+      --color-text: #f9fafb;     /* near white */
+      --color-muted: #9ca3af;    /* muted grey */
+      --radius-lg: 1.4rem;
+      --radius-pill: 999px;
+      --shadow-soft: 0 18px 45px rgba(0,0,0,0.35);
+      --shadow-chip: 0 8px 18px rgba(0,0,0,0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(76, 201, 240, 0.25), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(255, 138, 92, 0.25), transparent 55%),
+        var(--color-bg);
+      color: var(--color-text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Header */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(
+        to bottom,
+        rgba(11, 18, 32, 0.9),
+        rgba(11, 18, 32, 0.7),
+        transparent
+      );
+      border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+    }
+
+    .nav-container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0.9rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, var(--color-accent), var(--color-primary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-chip);
+      font-size: 0.8rem;
+    }
+
+    .logo-mark span {
+      transform: translateY(-0.5px);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 0.9rem;
+      flex-wrap: wrap;
+      font-size: 0.85rem;
+    }
+
+    nav li {
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.12s ease, border-color 0.2s ease;
+      white-space: nowrap;
+    }
+
+    nav li:hover {
+      background: rgba(76, 201, 240, 0.14);
+      border-color: rgba(76, 201, 240, 0.65);
+      transform: translateY(-1px);
+    }
+
+    .nav-extra {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.82rem;
+      color: var(--color-muted);
+    }
+
+    .nav-pill {
+      padding: 0.35rem 0.9rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: rgba(15, 23, 42, 0.9);
+      cursor: pointer;
+    }
+
+    /* Layout & main content */
+
+    main {
+      flex: 1;
+    }
+
+    .hero {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 3.5rem 1.25rem 3.75rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1.05fr);
+      gap: 2.75rem;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+        padding-top: 2.5rem;
+      }
+      .hero-right {
+        order: -1;
+      }
+
+      .nav-extra {
+        display: none;
+      }
+
+      nav ul {
+        justify-content: flex-end;
+        max-width: 100%;
+        overflow-x: auto;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding: 2.25rem 1.1rem 3rem;
+      }
+      nav ul {
+        display: none; /* keep header ultra-minimal on tiny screens */
+      }
+    }
+
+    .hero-title {
+      font-size: clamp(2.1rem, 4vw, 2.9rem);
+      line-height: 1.08;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.9rem;
+    }
+
+    .hero-title span {
+      background: linear-gradient(120deg, var(--color-secondary), var(--color-primary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 0.98rem;
+      max-width: 30rem;
+      color: var(--color-muted);
+      line-height: 1.6;
+      margin-bottom: 1.8rem;
+    }
+
+    .hero-badges {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      font-size: 0.78rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-badge {
+      padding: 0.25rem 0.8rem;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.75);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .hero-badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    /* Search card */
+
+    .search-card-wrapper {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .search-card {
+      width: 100%;
+      max-width: 430px;
+      background: linear-gradient(
+        145deg,
+        rgba(15, 23, 42, 0.98),
+        rgba(15, 23, 42, 0.98),
+        rgba(17, 24, 39, 0.98)
+      );
+      border-radius: 1.6rem;
+      padding: 1.75rem 1.6rem 1.6rem;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .search-card::before {
+      content: "";
+      position: absolute;
+      inset: -80px;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(76, 201, 240, 0.16), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(255, 138, 92, 0.16), transparent 55%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .search-card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .search-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1.2rem;
+    }
+
+    .search-card-title {
+      font-size: 0.96rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .search-chip {
+      font-size: 0.7rem;
+      padding: 0.1rem 0.45rem;
+      border-radius: 0.75rem;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+    }
+
+    .search-card-subtitle {
+      font-size: 0.75rem;
+      color: var(--color-muted);
+    }
+
+    form {
+      display: grid;
+      gap: 1.1rem;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      font-size: 0.8rem;
+    }
+
+    label {
+      color: var(--color-muted);
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.9rem;
+    }
+
+    input,
+    select {
+      padding: 0.6rem 0.75rem;
+      border-radius: 0.9rem;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.85);
+      color: var(--color-text);
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    input::placeholder {
+      color: rgba(148, 163, 184, 0.85);
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--color-secondary);
+      box-shadow: 0 0 0 1px rgba(76, 201, 240, 0.4);
+      background: rgba(15, 23, 42, 0.98);
+    }
+
+    .submit-btn {
+      margin-top: 0.4rem;
+      padding: 0.8rem 1rem;
+      border-radius: var(--radius-pill);
+      border: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: linear-gradient(120deg, var(--color-secondary), var(--color-primary));
+      color: #0b1120;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.45);
+      transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
+    }
+
+    .submit-btn:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+      box-shadow: 0 18px 45px rgba(0,0,0,0.6);
+    }
+
+    .submit-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 8px 22px rgba(0,0,0,0.6);
+    }
+
+    .submit-btn span {
+      font-size: 1.1rem;
+      transform: translateY(1px);
+    }
+
+    .tiny-caption {
+      margin-top: 0.55rem;
+      font-size: 0.72rem;
+      color: var(--color-muted);
+      text-align: center;
+    }
+
+    /* Simple “result” placeholder (for now just a text line) */
+    #search-result {
+      margin-top: 0.9rem;
+      font-size: 0.78rem;
+      color: var(--color-accent);
+      min-height: 1.2em;
+    }
+
+    footer {
+      font-size: 0.75rem;
+      color: var(--color-muted);
+      text-align: center;
+      padding: 0 1.25rem 1.3rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="nav-container">
+      <div class="logo">
+        <div class="logo-mark">
+          <!-- Tiny plane icon using plain text -->
+          <span>✈️</span>
+        </div>
+        <span>MyLayover</span>
+      </div>
+
+      <nav aria-label="Popular layover cities">
+        <ul>
+          <!-- ✏️ Edit these later to whatever cities/routes you want -->
+          <li><a href="#city-london">London</a></li>
+          <li><a href="#city-istanbul">Istanbul</a></li>
+          <li><a href="#city-dubai">Dubai</a></li>
+          <li><a href="#city-toronto">Toronto</a></li>
+          <li><a href="#city-new-york">New York</a></li>
+          <li><a href="#city-singapore">Singapore</a></li>
+          <li><a href="#how-it-works">How it works</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-extra">
+        <span>Make your layover the best part of the trip.</span>
+        <button class="nav-pill" type="button">
+          Placeholder · Edit Me
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+    <section class="hero">
+      <div class="hero-left">
+        <div class="hero-badges">
+          <div class="hero-badge">
+            <span class="hero-badge-dot"></span>
+            <span>Turn waiting time into travel time</span>
+          </div>
+          <div class="hero-badge">
+            ⏱ Under 60 seconds to search
+          </div>
+        </div>
+
+        <h1 class="hero-title">
+          Make your <span>layover</span> the highlight of your trip.
+        </h1>
+
+        <p class="hero-subtitle">
+          Drop in your airport and layover times and we’ll curate ideas to explore,
+          nap, taste, and wander—so your “in-between” stops feel like mini-vacations.
+        </p>
+
+        <!-- You can add more copy or remove this entirely to stay ultra-minimal -->
+      </div>
+
+      <div class="hero-right">
+        <div class="search-card-wrapper">
+          <div class="search-card" aria-label="Layover search form">
+            <div class="search-card-inner">
+              <div class="search-card-header">
+                <div>
+                  <div class="search-card-title">
+                    Plan your layover
+                    <span class="search-chip">beta</span>
+                  </div>
+                  <div class="search-card-subtitle">
+                    Front page: airport + two date/time pickers. That’s it.
+                  </div>
+                </div>
+              </div>
+
+              <form id="layover-form">
+                <!-- AIRPORT FIELD -->
+                <div class="field">
+                  <label for="airport-input">Airport</label>
+                  <input
+                    id="airport-input"
+                    name="airport"
+                    list="airport-list"
+                    placeholder="e.g. YYZ, JFK, LHR"
+                    required
+                  />
+                  <!-- Optional suggestions – edit freely -->
+                  <datalist id="airport-list">
+                    <option value="YYZ - Toronto Pearson"></option>
+                    <option value="YOW - Ottawa"></option>
+                    <option value="JFK - New York"></option>
+                    <option value="EWR - Newark"></option>
+                    <option value="LHR - London Heathrow"></option>
+                    <option value="CDG - Paris Charles de Gaulle"></option>
+                    <option value="IST - Istanbul"></option>
+                    <option value="DXB - Dubai"></option>
+                    <option value="SIN - Singapore Changi"></option>
+                  </datalist>
+                </div>
+
+                <!-- ARRIVAL & DEPARTURE -->
+                <div class="field-row">
+                  <div class="field">
+                    <label for="arrival-datetime">Arrival (local time)</label>
+                    <input
+                      type="datetime-local"
+                      id="arrival-datetime"
+                      name="arrival"
+                      required
+                    />
+                  </div>
+                  <div class="field">
+                    <label for="departure-datetime">Departure (local time)</label>
+                    <input
+                      type="datetime-local"
+                      id="departure-datetime"
+                      name="departure"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <!-- SUBMIT -->
+                <button class="submit-btn" type="submit">
+                  <span>➜</span>
+                  Find layover ideas
+                </button>
+
+                <p class="tiny-caption">
+                  No log-in. No payment. Just a simple layover search—for now.
+                </p>
+
+                <div id="search-result" aria-live="polite"></div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    © <span id="year"></span> MyLayover · Built with ✈ and a hatred for boring layovers.
+  </footer>
+
+  <!-- Minimal JS -->
+  <script>
+    // Set current year in footer
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Simple fake handling of the form, just to prove it's "doing something"
+    const form = document.getElementById("layover-form");
+    const result = document.getElementById("search-result");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const airport = (document.getElementById("airport-input").value || "").trim();
+      const arrival = document.getElementById("arrival-datetime").value;
+      const departure = document.getElementById("departure-datetime").value;
+
+      if (!airport || !arrival || !departure) {
+        result.textContent = "Please fill in all fields to search your layover.";
+        return;
+      }
+
+      const arrivalDate = new Date(arrival);
+      const departureDate = new Date(departure);
+      const diffMs = departureDate - arrivalDate;
+
+      if (diffMs <= 0) {
+        result.textContent = "Departure must be after arrival. Double-check your times.";
+        return;
+      }
+
+      const hours = Math.floor(diffMs / (1000 * 60 * 60));
+      const minutes = Math.round((diffMs / (1000 * 60)) % 60);
+      const layoverStr =
+        hours > 0
+          ? `${hours}h${minutes > 0 ? " " + minutes + "m" : ""}`
+          : `${minutes} minutes`;
+
+      result.textContent = `Nice. You’ve got a ${layoverStr} layover at ${airport}. (This is just a placeholder message—later this is where your real suggestions will show up.)`;
+    });
+  </script>
+</body>
+</html>
