@@ -5,6 +5,21 @@
   <title>MyLayover – Turn Your Layover Into An Adventure</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+  <!--
+  MVP Cities:
+  - Toronto (YYZ) -> slug: toronto
+  - London (LHR) -> slug: london
+  - Istanbul (IST) -> slug: istanbul
+  - Dubai (DXB) -> slug: dubai
+  - Singapore (SIN) -> slug: singapore
+
+  Duration buckets (tentative):
+  - 0–3h: too-short
+  - 3–6h: 3-6-hours
+  - 6–10h: 6-10-hours
+  - 10h+: 10plus-hours
+  -->
+
   <!-- Basic styling -->
   <style>
     :root {
@@ -392,6 +407,39 @@
       min-height: 1.2em;
     }
 
+    /* City sections (acts like future content pages) */
+    .city-section {
+      max-width: 1120px;
+      margin: 0 auto 2.5rem;
+      padding: 2rem 1.25rem 0;
+      border-top: 1px solid rgba(148, 163, 184, 0.25);
+    }
+
+    .city-section h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .city-section p {
+      font-size: 0.95rem;
+      color: var(--color-muted);
+      margin-bottom: 0.35rem;
+      max-width: 40rem;
+    }
+
+    .city-section ul {
+      margin-left: 1.25rem;
+      margin-bottom: 0.8rem;
+      color: var(--color-muted);
+      font-size: 0.95rem;
+    }
+
+    .city-note {
+      font-size: 0.8rem;
+      opacity: 0.9;
+      font-style: italic;
+    }
+
     footer {
       font-size: 0.75rem;
       color: var(--color-muted);
@@ -414,13 +462,11 @@
 
       <nav aria-label="Popular layover cities">
         <ul>
-          <!-- ✏️ Edit these later to whatever cities/routes you want -->
-          <li><a href="#city-london">London</a></li>
-          <li><a href="#city-istanbul">Istanbul</a></li>
-          <li><a href="#city-dubai">Dubai</a></li>
-          <li><a href="#city-toronto">Toronto</a></li>
-          <li><a href="#city-new-york">New York</a></li>
-          <li><a href="#city-singapore">Singapore</a></li>
+          <li><a href="#toronto">Toronto</a></li>
+          <li><a href="#london">London</a></li>
+          <li><a href="#istanbul">Istanbul</a></li>
+          <li><a href="#dubai">Dubai</a></li>
+          <li><a href="#singapore">Singapore</a></li>
           <li><a href="#how-it-works">How it works</a></li>
         </ul>
       </nav>
@@ -456,8 +502,6 @@
           Drop in your airport and layover times and we’ll curate ideas to explore,
           nap, taste, and wander—so your “in-between” stops feel like mini-vacations.
         </p>
-
-        <!-- You can add more copy or remove this entirely to stay ultra-minimal -->
       </div>
 
       <div class="hero-right">
@@ -491,10 +535,7 @@
                   <datalist id="airport-list">
                     <option value="YYZ - Toronto Pearson"></option>
                     <option value="YOW - Ottawa"></option>
-                    <option value="JFK - New York"></option>
-                    <option value="EWR - Newark"></option>
                     <option value="LHR - London Heathrow"></option>
-                    <option value="CDG - Paris Charles de Gaulle"></option>
                     <option value="IST - Istanbul"></option>
                     <option value="DXB - Dubai"></option>
                     <option value="SIN - Singapore Changi"></option>
@@ -540,6 +581,47 @@
         </div>
       </div>
     </section>
+
+    <!-- CITY SECTIONS (placeholder content) -->
+    <section id="toronto" class="city-section">
+      <h2>Toronto (YYZ) Layover Guides</h2>
+      <p>Coming soon: curated ideas for 3–6 hour and 6–10 hour layovers in Toronto.</p>
+      <p class="city-note">This will eventually link to separate WordPress pages with real tours and activities.</p>
+    </section>
+
+    <section id="london" class="city-section">
+      <h2>London (LHR) Layover Guides</h2>
+      <p>Coming soon: how to brave customs, jump on the Elizabeth line, and still make it back in time.</p>
+      <p class="city-note">Soon this will route you to London layover pages with embedded tour widgets.</p>
+    </section>
+
+    <section id="istanbul" class="city-section">
+      <h2>Istanbul (IST) Layover Guides</h2>
+      <p>Coming soon: quick dips into the city for food, views, and maybe a hammam.</p>
+      <p class="city-note">Later: dedicated Istanbul layover pages powered by WordPress plugins.</p>
+    </section>
+
+    <section id="dubai" class="city-section">
+      <h2>Dubai (DXB) Layover Guides</h2>
+      <p>Coming soon: desert-lite adventures, malls, and sky-high views tailored to your layover length.</p>
+      <p class="city-note">Each layover length will become its own content page in WordPress.</p>
+    </section>
+
+    <section id="singapore" class="city-section">
+      <h2>Singapore (SIN) Layover Guides</h2>
+      <p>Coming soon: when the airport itself is the attraction – plus what to do if you leave it.</p>
+      <p class="city-note">Will map to WordPress pages with real tours and experiences.</p>
+    </section>
+
+    <section id="how-it-works" class="city-section">
+      <h2>How MyLayover Will Work</h2>
+      <p>Enter your airport and layover times on the homepage. We’ll route you to a page tailored to:</p>
+      <ul>
+        <li>Your airport (e.g. Toronto, London, Dubai)</li>
+        <li>Your layover length (e.g. 3–6 hours vs. 10+ hours)</li>
+      </ul>
+      <p>On that page, you’ll see curated suggestions and bookable tours pulled in from external providers via WordPress plugins.</p>
+    </section>
   </main>
 
   <!-- FOOTER -->
@@ -552,21 +634,43 @@
     // Set current year in footer
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // Simple fake handling of the form, just to prove it's "doing something"
+    // Basic config for MVP
+    const airportToCity = {
+      "YYZ": "toronto",
+      "YOW": "ottawa",
+      "LHR": "london",
+      "IST": "istanbul",
+      "DXB": "dubai",
+      "SIN": "singapore"
+    };
+
+    function getDurationBucket(diffMs) {
+      const hours = diffMs / (1000 * 60 * 60);
+
+      if (hours < 3) return "too-short";
+      if (hours < 6) return "3-6-hours";
+      if (hours < 10) return "6-10-hours";
+      return "10plus-hours";
+    }
+
     const form = document.getElementById("layover-form");
     const result = document.getElementById("search-result");
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      const airport = (document.getElementById("airport-input").value || "").trim();
+      const airportRaw = (document.getElementById("airport-input").value || "").trim();
       const arrival = document.getElementById("arrival-datetime").value;
       const departure = document.getElementById("departure-datetime").value;
 
-      if (!airport || !arrival || !departure) {
+      if (!airportRaw || !arrival || !departure) {
         result.textContent = "Please fill in all fields to search your layover.";
         return;
       }
+
+      // Try to extract a 3-letter code from input like 'YYZ - Toronto Pearson'
+      const match = airportRaw.match(/[A-Z]{3}/);
+      const airportCode = match ? match[0].toUpperCase() : airportRaw.toUpperCase();
 
       const arrivalDate = new Date(arrival);
       const departureDate = new Date(departure);
@@ -577,6 +681,14 @@
         return;
       }
 
+      const bucket = getDurationBucket(diffMs);
+      const citySlug = airportToCity[airportCode];
+
+      if (!citySlug) {
+        result.textContent = `You’ve got a layover at ${airportCode}, but we don’t have that airport set up yet. (This will eventually send you to a layover page for that city.)`;
+        return;
+      }
+
       const hours = Math.floor(diffMs / (1000 * 60 * 60));
       const minutes = Math.round((diffMs / (1000 * 60)) % 60);
       const layoverStr =
@@ -584,7 +696,12 @@
           ? `${hours}h${minutes > 0 ? " " + minutes + "m" : ""}`
           : `${minutes} minutes`;
 
-      result.textContent = `Nice. You’ve got a ${layoverStr} layover at ${airport}. (This is just a placeholder message—later this is where your real suggestions will show up.)`;
+      const futureUrl = `/layovers/${citySlug}/${bucket}/`;
+
+      // Preview behaviour (for static prototype)
+      result.textContent = `Nice. You’ve got a ${layoverStr} layover at ${airportCode}. In the full version of the site, this search will send you to: ${futureUrl}`;
+      // In WordPress, you’ll replace the above line with:
+      // window.location.href = futureUrl;
     });
   </script>
 </body>
